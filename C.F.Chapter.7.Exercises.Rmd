@@ -1,0 +1,167 @@
+---
+title: "C&F Chapter 7 Exercises"
+author: "Pawel Bogdanowicz"
+date: "Tuesday, February 16, 2016"
+output: html_document
+---
+
+height weight bmi smoking active/notactive gender 
+
+Create the data for the exercises
+
+```{r}
+
+library(data.table)
+set.seed(2)
+
+N <- 100 # 100 Patients
+
+data = data.table(matrix(rep(NA,600),nrow=100,ncol=8))
+setnames(data,colnames(data),c("gender"
+                               ,"activityLevel"
+                               ,"height"
+                               ,"weight"
+                               ,"bmi"
+                               ,"smoker"
+                               ,"age"
+                               ,"risk"))
+
+data$gender <- factor(ifelse(rbinom(N,1,0.5)==1,"female","male"))
+data$activityLevel <- factor(sample(c(1,2,3),N,replace=TRUE))
+data$smoker <- factor(ifelse(rbinom(N,1,0.1)==1,"yes","no"))
+
+data$height[data$gender=="female"] <- rpois(length(data$gender[data$gender=="female"]),64)
+data$height[data$gender=="male"] <- rpois(length(data$gender[data$gender=="male"]),69)
+
+data$weight[data$gender=="female"] <- rpois(length(data$gender[data$gender=="female"]),150)
+data$weight[data$gender=="male"] <- rpois(length(data$gender[data$gender=="male"]),180)
+
+data$age <-  round(runif(N , min=18 , max=70))
+
+data$bmi <- (data$weight / data$height^2)*703
+
+data$risk <- ifelse(data$bmi >= 35 , rnorm(length(data$bmi[data$bmi>=35]),8,2) , 
+                    ifelse(data$smoker=="yes",rnorm(length(data$smoker[data$smoker=="yes"]),8,2),
+                           ifelse(data$bmi >= 25 & data$bmi < 30 , rnorm(length(data$bmi[data$bmi>=25 & data$bmi<30]),3,3) , NA)))
+data$risk[is.na(data$risk)] <- rnorm(length(data$risk[is.na(data$risk)]),5,3)
+data$risk <- ifelse(data$risk<1,1,ifelse(data$risk>10,10,data$risk))
+
+```
+
+
+#### Explore the dataset
+
+Use gpairs 
+* Do all of the variable seem to be normally distributed
+    + Notice that height and weight (as expcted) may seem a little skewed
+* Use corrplot
+    + Notice that height and bmi seem to be very correlated (as expected) with a correlation coefficient of -0.85. When putting these into the linear model, we should expect that height will not be a significant variable and any variation should be sufficiently explained by bmi.  
+    + However, because weight is also used in the bmi calculation, why does it not correlate more strongly with bmi?  This is due to the bmi formula.  Weight is divided by weight^2 and multiplied by 708.  Thus, the weight may be overshadowed by larger numbers.
+    + Also notice that there is a correlation between bmi and risk with a correlation coefficient of -0.58.  This was expected as persons with a bmi over 35 are given a risk of one.  Why is this not a stronger coefficient then?  The factor smoker is also a strong predictor of risk.
+
+
+```{r}
+
+library(gpairs)
+library(corrplot)
+data <- data.frame(data)
+
+gpairs(data)
+
+newdata <- data
+newdata[,c(2:5,7:8)] <- sapply(data[,c(2:5,7:8)],as.numeric)
+
+corrplot.mixed(cor(newdata[,c(2,3,4,5,7,8)]),upper="ellipse")
+
+# Make all of the variables numeric and plot the new corrplot
+newdata <- sapply(data,as.numeric)
+corrplot.mixed(cor(newdata))
+
+```
+
+
+
+#### Plot risk by bmi adding the line of best fit using abline
+
+
+```{r}
+
+m1 <- lm(risk ~ bmi , data=data)
+
+plot(risk ~ bmi , data=data
+     ,xlab="bmi",ylab="risk")
+abline(m1,col='blue')
+
+```
+
+
+#### Using the coefficient from the linear model, calculate the residuals and return a summary.  Confirm the calculated residuals using summary(model)
+
+
+```{r}
+
+residuals <- data$risk-(m1$coefficients[1]+data$bmi*m1$coefficients[2])
+
+summary(residuals)
+summary(m1)
+
+```
+
+
+
+* Summarize two linear models (bmi+smoker+heigher and bmi+smoker+bmiXsmoker
+```{r}
+
+m2 <- lm(risk ~ bmi + smoker + height, data=data)
+summary(m2)
+
+m3 <- lm(risk ~ bmi + smoker + bmi*smoker , data=data  )
+summary(m3)
+
+```
+
+
+* M2 shows that smoker:yes is significant but the other tow variables are not.  From our earlier analysis and just conceptually we expected that BMI would be an important variables.  Why is BMI not significant any more?  Due to how the data was created (IF smokeryes=1 then risk=10), the model could be overfitting on smokeryes.
+
+
+
+For M2 above, remove height and create two new models for M2 and M3 using the step function. Also compare the models to using all of the variables.  Compare the models and interpret the results.  Which model is best and interpret the model results.
+
+```{r}
+m4 <- step(lm(risk ~ bmi + smoker , data=data))
+summary(m4)
+
+m5 <- step(lm(risk ~ bmi + smoker + bmi*smoker , data=data  ))
+summary(m5)
+
+m6 <- lm(risk ~ ., data=data  )
+summary(m6)
+
+summary(m2)$r.squared
+summary(m3)$r.squared
+summary(m4)$r.squared
+summary(m5)$r.squared
+summary(m6)$r.squared
+
+
+plot(data$risk , fitted(m1) , col='red')
+points(data$risk , fitted(m2) , col='blue')
+
+
+# library(coefplot)
+# coefplot(m1,intercept=FALSE,outerCI=1.96,lwdOuter=1.5)
+
+```
+
+
+The model using all of the variables is best while being able to explain approximately 31% of the variation where the other models explain about 15%.  The model found that activity level 3 was significant and an increase in activity level increased risk by about 2.3 points.  BMI and smoker: were also found to be significant.  
+
+On a concluding thought, the best model in this case explained 30% of the variation.  The r-squared value is 0.31.  Due to this being clinical data, it would be expected that the model would perform better.  Even though we found significance in variables that conceptually make sense, we might have to disregard 
+
+
+
+
+
+
+
+

@@ -1,0 +1,120 @@
+---
+title: "C&F Chapter 3 Exercies"
+author: "Pawel Bogdanowicz"
+date: "January 15, 2016"
+output: html_document
+---
+
+### Exercise 1
+
+##### Simulate a 2 dice roll for 100 trials 
+##### Plot a histogram of the results (2:12)
+##### Use relative frequency instead of count
+##### Add color and formatting to the histogram plot
+##### Add an axis to include all values between 2:12
+
+```{r}
+
+set.seed(98250)
+
+rolls <- data.frame(matrix(NA,ncol=3,nrow=100))
+names(rolls) <- c("roll1","roll2","Total")
+
+
+rolls$roll1 <- sample(x=c(1:6) , size=100 , replace=TRUE)
+rolls$roll2 <- sample(x=c(1:6) , size=100 , replace=TRUE)
+rolls$Total <- rolls$roll1+rolls$roll2
+
+rolls$Total <- as.numeric(rolls$Total)
+
+hist(rolls$Total,
+     main="Simulation of Two Dice Rolls",
+     xlab="Sum of two rolls",
+     ylab="Relative Frequency",
+     col="lightblue",
+     xaxt="n",
+     freq=FALSE
+)
+axis(side=1, at=seq(2,12,by=1))
+
+```
+
+
+
+
+### Exercise 2
+
+##### Load the file Philly_Dropout_Data.csv
+##### Remove the following columns: (2,3,4,6)
+* Name the columns:
+    + County FACTOR
+    + School CHARACTER
+    + Enrollments INTEGER
+    + maleDropouts INTEGER
+    + femaleDropouts INTEGER
+    + dropoutRate NUMERIC
+* Data from opendataphilly.org
+
+```{r}
+
+setwd("/Users/Pawel/Google Drive/Independent Study/C&F/C&F Exercies")
+
+data <- read.csv("Philly_Dropout_Data.csv")
+data <- data[,c(-2,-3,-4,-6)]
+names(data) <- c("county","school","enrollments","maleDropouts","femaleDropouts","dropouts","dropoutRate")
+
+data$county <- as.factor(data$county)
+data$school <- as.character(data$school)
+
+str(data)
+
+```
+
+##### Remove missing values from the dataset
+
+```{r]}
+#data <- data[!is.na(data),]
+data <- na.omit(data)
+summary(data)
+```
+
+##### Show descriptive statistitcs for the dataset.
+##### Create a table that aggregates enrollments, dropouts,maleDropouts,femaleDropouts by county
+
+```{r}
+
+# describe(data[,c(1,4:7)])
+
+aggData <- data.frame(aggregate(cbind(enrollments,dropouts,maleDropouts,femaleDropouts)~county,data=data,sum))
+str(aggData)
+head(aggData);tail(aggData)
+
+```
+
+##### Compute the average, min, max dropout rate per county omitting schools with 0 dropout rates
+```{r}
+
+newData <- data[data$dropouts>0,]
+newData <- data[data$dropouts<100,]
+
+
+countyMed <- aggregate(dropouts~county,data=newData,mean)
+countyMin <- aggregate(dropouts~county,data=newData,min)
+countyMax <- aggregate(dropouts~county,data=newData,max)
+
+(dropData <- cbind(countyMin,countyMed$dropouts,countyMax$dropouts))
+
+```
+
+##### Create a boxplot comparing male dropouts and female dropouts using the new dataset
+```{r}
+newData <- data[data$dropouts>5&data$dropouts<100,]
+
+boxplot(cbind(newData$maleDropouts,newData$femaleDropouts) , xaxt="n", 
+        ylab="Number of Dropouts",
+        main="Number of Dropouts by Gender")
+axis(side=1, at=c(1,2) , labels=c("Male","Female"))
+
+```
+
+

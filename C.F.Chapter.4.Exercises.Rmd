@@ -1,0 +1,143 @@
+---
+title: "C&F Chapter 4 Exercises"
+author: "Pawel Bogdanowicz"
+date: "January 28, 2016"
+output: html_document
+---
+
+
+### Rossmann Store Sales Exploratory Analysis Exercise
+This exercise is based on the Kaggle competition "Rossmann Store Sales"
+The data can be found here: https://www.kaggle.com/c/rossmann-store-sales/data
+
+The first part merges select variables from store.csv and train.csv.  From previous knowledge of the dataset, rows with sales = 0 just add noise to the dataset and are removed.
+
+* This part creates a dataset that can be used for these exercises.  Ideally if this code is reproduced, either the two csv files or the final file can be provided.
+
+```{r}
+
+setwd("/Users/Pawel/Google Drive/Independent Study/C&F/C&F Exercies/")
+
+train <- read.csv("train.csv")
+store <- read.csv("store.csv")
+
+# Not judged on sales with 0 sales - remove from train dataset
+# Remove rows where sales are greater than 0
+train <- train[train$Sales > 0,]  
+
+# Merge the train and test data sets with store by the column "Store"
+train <- merge(train,store,by="Store")
+raw <- train[,c(1,2,4,5,7,10,11,12)]
+raw[is.na(raw$CompetitionDistance),8] <- mean(raw$CompetitionDistance)
+
+# Take a random sample of 1000 rows just to make the code a bit quicker
+data <- raw[sample(1:nrow(raw) , 1000 , replace=FALSE),]
+rm(raw,store,train)
+
+```
+
+### 1
+1) Use the data provided to create a corrplot of all of the variables.
+
+```{r}
+library(corrplot)
+library(gplots)
+
+data$StoreType <- as.numeric(data$StoreType)
+data$Assortment <- as.numeric(data$Assortment)
+
+corrplot.mixed(corr=cor((data) , use="complete.obs")
+               , upper="ellipse"
+               , tl.pos="lt"
+               , col=colorpanel(50,"red","gray60","blue4"))
+
+```
+
+The correlation plot shows that there is some correlation
+* DayOfWeek ~ Sales + Promo
+* Sales ~ Customers + Promo
+* Customers ~ StoreType + CompetitionDistance
+* StoreType ~ Assortment
+
+There is obvious positive correlation between customers and sales, which intuitively checks out.
+
+### 2 
+2) Make two plots Sales by Customers and color the points by store type and promo
+* Use a log scale
+* Add appropriate axis labels, title, legend
+
+```{r}
+
+col.p1 <- c("black" , "green" , "blue" , "red")
+
+plot( data$Customers , data$Sales
+     , log="xy"
+     , pch=c(1)
+     , col=col.p1[data$StoreType] 
+     , xlab="Customers"
+     , ylab="Sales ($)"
+     , main="Rossmann Sales")
+legend(x="bottomright" , legend=paste("Store Type:" , levels(data$StoreType)) , col=col.p1 , pch=c(1) )
+
+
+col.p2 <- c("black","blue" )
+
+plot( data$Customers , data$Sales
+     , log="xy"
+     , pch=c(1)
+     , col=col.p2[data$Promo+1] 
+     , xlab="Customers"
+     , ylab="Sales ($)"
+     , main="Rossmann Sales")
+legend(x="bottomright" , legend=paste("Promo:" , levels(data$Promo)) , col=col.p2 , pch=c(1) )
+
+```
+
+### 3 
+Plot Sales by Competition and use promo as color
+* Use a log scale
+* Add appropriate axis labels, title, legend
+
+```{r}
+col.p3 <- c("black","blue")
+plot(data$Sales,data$CompetitionDistance,log="xy",col=col.p3[data$Promo+1],pch=c(19))
+```
+
+
+### 4
+1) Determine the correlation between Sales and Promo/StoreType/CompetitionDistance
+
+```{r}
+cor.test(data$Sales , data$StoreType)
+cor.test(data$Sales , data$Promo)
+cor.test(data$Sales , data$CompetitionDistance)   # Why does cor.test return value but cor return NA?
+```
+
+These tests show that the correlation for Sales and Promo is 0.38 and is statistically significant.
+
+2) Transform Sales using Box-Cox Transformations and test the same correlations as in (1)
+
+```{r}
+
+library(car)
+
+l.sales <- coef(powerTransform(data$Sales))
+l.comp <- coef(powerTransform(data$CompetitionDistance))
+
+cor.test(bcPower(data$Sales,l.sales) , data$StoreType)
+cor.test(bcPower(data$Sales,l.sales) , data$Promo)
+cor.test(bcPower(data$Sales,l.sales) , bcPower(data$CompetitionDistance , l.comp))
+
+```
+
+Using the power transform, storetype is still not statistically correlated. 
+Promo became more correlated with pearsons going from 0.38 to 0.42.
+CompetitionDistance became correlated. Before the transform it had a coefficient of -0.05 and not statistically significant (p-value=0.16).  After the transform, the coefficient became -0.07 with a p-value of 0.02.
+
+
+
+
+
+
+
+
