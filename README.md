@@ -7,9 +7,9 @@ The intended target market of these exercises is someone who has a basic underst
 Keeping in mind that the exercises were created for specific functions, I welcome any comments or suggestions.
 
 ## Contents
-⋅⋅* Chapter 2: R Basics
-⋅⋅* *Chapter 3: Exploratory Analysis
-⋅⋅* *Chapter 4: Data Relationships Using Kaggle
-⋅⋅* *Chapter 5: Simulating and Comparing Data
-⋅⋅* Chapter 6: Statistical Tests
-⋅⋅* Chapter 7: Linear Regression / ANOVA
+*  Chapter 2: R Basics
+*  Chapter 3: Exploratory Analysis
+*  Chapter 4: Data Relationships Using Kaggle
+* Chapter 5: Simulating and Comparing Data
+*  Chapter 6: Statistical Tests
+* Chapter 7: Linear Regression / ANOVA
