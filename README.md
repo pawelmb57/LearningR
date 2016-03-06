@@ -7,9 +7,9 @@ The intended target market of these exercises is someone who has a basic underst
 Keeping in mind that the exercises were created for specific functions, I welcome any comments or suggestions.
 
 ## Contents
-*  [Chapter 2: R Basics](https://github.com/pawelmb57/LearningR/blob/master/C_F_Chapter_2_Exercises.md)
-*  [Chapter 3: Exploratory Analysis](https://github.com/pawelmb57/LearningR/blob/master/C_F_Chapter_3_Exercies.md)
-*  [Chapter 4: Data Relationships Using Kaggle](https://github.com/pawelmb57/LearningR/blob/master/C_F_Chapter_4_Exercises.md)
-*  [Chapter 5: Simulating and Comparing Data](https://github.com/pawelmb57/LearningR/blob/master/C_F_Chapter_5_Exercises.md)
-*  [Chapter 6: Statistical Tests](https://github.com/pawelmb57/LearningR/blob/master/C_F_Chapter_6_Exercises.md)
-*  [Chapter 7: Linear Regression / ANOVA](https://github.com/pawelmb57/LearningR/blob/master/C_F_Chapter_7_Exercises.md)
+*  [2) R Basics](https://github.com/pawelmb57/LearningR/blob/master/C_F_Chapter_2_Exercises.md)
+*  [3) Exploratory Analysis](https://github.com/pawelmb57/LearningR/blob/master/C_F_Chapter_3_Exercies.md)
+*  [4) Data Relationships Using Kaggle](https://github.com/pawelmb57/LearningR/blob/master/C_F_Chapter_4_Exercises.md)
+*  [5) Simulating and Comparing Data](https://github.com/pawelmb57/LearningR/blob/master/C_F_Chapter_5_Exercises.md)
+*  [6) Statistical Tests](https://github.com/pawelmb57/LearningR/blob/master/C_F_Chapter_6_Exercises.md)
+*  [7) Linear Regression / ANOVA](https://github.com/pawelmb57/LearningR/blob/master/C_F_Chapter_7_Exercises.md)
