@@ -15,8 +15,8 @@ The first part merges select variables from store.csv and train.csv.  From previ
 ```r
 setwd("C:/Users/Pawel PC/Google Drive/School (1)/Independent Study/C&F/C&F Exercies")
 
-train <- read.csv("train.csv")
-store <- read.csv("store.csv")
+train <- read.csv("http://goo.gl/Zlr24r")
+store <- read.csv("http://goo.gl/MtLCTf")
 
 # Not judged on sales with 0 sales - remove from train dataset
 # Remove rows where sales are greater than 0
