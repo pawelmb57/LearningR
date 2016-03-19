@@ -1,8 +1,7 @@
 # C&F Chapter 2 Exercies
 Pawel Bogdanowicz  
-January 15, 2016  
 
-### Exercies 1
+### Exercise 1
 
 ##### Create the following dataframe
 
