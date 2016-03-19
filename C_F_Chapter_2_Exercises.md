@@ -45,7 +45,7 @@ sales <- c(rep(1200,5),rep(1000,5))
 ## 10          1010         Best Buy Macbook      No  1000
 ```
 
-#### Display the data types of the dataframe
+#### Change the data types of the variables to the following:
     + transactionID= factor
     + Marketing Channel= Factor
     + Product= Factor
@@ -55,10 +55,11 @@ Hint: Yes and No in returns must be transformed to TRUE FALSE
     
 
 ```r
-salesData$transactionID <- factor(salesData$transactionID)
+str(salesData)
 
-salesData$returns <- ifelse(salesData$returns=="Yes",TRUE,FALSE)
-salesData$returns <- as.logical(salesData$returns)
+salesData$transactionID <- factor(salesData$transactionID)
+salesData$returns       <- ifelse(salesData$returns=="Yes",TRUE,FALSE)
+salesData$returns       <- as.logical(salesData$returns)
 
 str(salesData)
 ```
