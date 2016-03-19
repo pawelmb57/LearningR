@@ -1,10 +1,9 @@
 # LearningR
 
-These exercises were created in coordination with the book "R for Marketing Research and Analytics" by Elea Feit and Chris Chapman.  I created these exercises for an independent study with Dr. Feit at Drexel University.
+These exercises were created in coordination with the book "R for Marketing Research and Analytics" by Elea Feit and Chris Chapman.  I created these exercises for an independent study with Dr. Feit at Drexel University.  The topics cover in each markdown follow the respective chapters.  The reason I was keen on posting these is because with relatively little knowledge of programming you can access tremendously power techniques in R.  I hope that anyone who stumbles upon these exercises can benefit from seeing R in action.  
 
-The intended target market of these exercises is someone who has a basic understanding of programming and statistics.  The material does not cover the concepts thoroughly so further learning is recommended.  Although, Google can be an efficient resource. 
+Please feel free to shoot over any comments or suggestions to improve these exercises!
 
-Keeping in mind that the exercises were created for specific functions, I welcome any comments or suggestions.
 
 ## Contents
 *  [2) R Basics](https://github.com/pawelmb57/LearningR/blob/master/C_F_Chapter_2_Exercises.md)
