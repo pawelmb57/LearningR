@@ -55,7 +55,7 @@ Hint: Yes and No in returns must be transformed to TRUE FALSE
     
 
 ```r
-str(salesData)
+(str(salesData))
 
 salesData$transactionID <- factor(salesData$transactionID)
 salesData$returns       <- ifelse(salesData$returns=="Yes",TRUE,FALSE)
