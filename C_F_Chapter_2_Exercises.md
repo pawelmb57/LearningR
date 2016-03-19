@@ -45,7 +45,7 @@ sales <- c(rep(1200,5),rep(1000,5))
 ## 10          1010         Best Buy Macbook      No  1000
 ```
 
-##### Show that the columns in the dataframe have the following data types
+#### Display the data types of the dataframe
     + transactionID= factor
     + Marketing Channel= Factor
     + Product= Factor
