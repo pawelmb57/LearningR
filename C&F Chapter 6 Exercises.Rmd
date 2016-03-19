@@ -1,3 +1,8 @@
+---
+output:  
+  html_document:  
+    keep_md: true  
+---
 # Statistical Tests
 
 
@@ -14,8 +19,8 @@
     + Color code the points that indicate a significant results (CI include 0.5 or pvalue>=0.5)
 
 
+```{r}
 
-```r
 N <- 100
 p <- 0.5
 
@@ -38,23 +43,18 @@ plot(A$successes,A$lb,ylim=0:1,xlab="Number of Successes",ylab="Upper and Lower 
 par(new=TRUE)
 plot(A$successes,A$ub,ylim=0:1,axes = FALSE, xlab = "", ylab = "",col=ifelse(A$pvalue>=0.05,'green','black'))
 abline(h = p)
-```
 
-![plot of chunk unnamed-chunk-1](C_F_Chapter_6_Exercises_files/figure-html/unnamed-chunk-11.png) 
-
-```r
 plot(A$successes,A$pvalue,xlab="Number of Successes",ylab="p-value",col=ifelse(A$pvalue>=0.05,'green','black'))
-```
 
-![plot of chunk unnamed-chunk-1](C_F_Chapter_6_Exercises_files/figure-html/unnamed-chunk-12.png) 
+```
 
 
 
 #### Apocalyptic Tires
 
 Create the data
+```{r}
 
-```r
 # Number of trials
 n <- 100
 
@@ -73,6 +73,8 @@ tires$mpg[tires$brand=="B"&tires$temp==90] <- rnorm(10,15,sd=5)
 
 tires$mpg[tires$brand=="C"&tires$temp==40] <- rnorm(10,27,sd=5)
 tires$mpg[tires$brand=="C"&tires$temp==90] <- rnorm(10,28,sd=5)
+
+
 ```
 
 
@@ -84,12 +86,13 @@ The zombies are coming and we need new tires for the Hummer. The market for new 
 * Return the results of 4 anova tests for all possible combinations of variables
     + Determine which variables are significant in each test.
 
+```{r}
 
-```r
 a1 <- anova(aov(mpg ~ brand , data=tires))
 a2 <- anova(aov(mpg ~ temp , data=tires))
 a3 <- anova(aov(mpg ~ brand + temp , data=tires))
 a4 <- anova(aov(mpg ~ brand + temp + brand*temp , data=tires))
+
 ```
 
 * A1
@@ -104,69 +107,41 @@ a4 <- anova(aov(mpg ~ brand + temp + brand*temp , data=tires))
 
 * Compare the A2,A3,A4 together and determine which model is best.
 
+```{r}
 
-```r
 anova(
   aov(mpg ~ temp , data=tires),
   aov(mpg ~ brand + temp , data=tires),
   aov(mpg ~ brand + temp + brand*temp , data=tires)
   )
-```
 
-```
-## Analysis of Variance Table
-## 
-## Model 1: mpg ~ temp
-## Model 2: mpg ~ brand + temp
-## Model 3: mpg ~ brand + temp + brand * temp
-##   Res.Df   RSS Df Sum of Sq     F  Pr(>F)    
-## 1    598 20785                               
-## 2    596 19598  2      1186  30.6 2.2e-13 ***
-## 3    594 11513  2      8085 208.6 < 2e-16 ***
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 The results indicate that A4 is the best model which include all interaction terms.
 
 * Graph the group confidence intervations by brand and tires
 
-
-```r
+```{r}
 library(multcomp)
-```
 
-```
-## Loading required package: mvtnorm
-## Loading required package: survival
-## Loading required package: TH.data
-```
 
-```r
 brand.aov <- aov(mpg ~ -1 + brand , data=tires)
 par(mar=c(6,10,2,2))
 plot(glht(brand.aov))
-```
 
-![plot of chunk unnamed-chunk-5](C_F_Chapter_6_Exercises_files/figure-html/unnamed-chunk-51.png) 
-
-```r
 temp.aov <- aov(mpg ~ -1 + temp , data=tires)
 par(mar=c(6,10,2,2))
 plot(glht(temp.aov))
+
 ```
 
-![plot of chunk unnamed-chunk-5](C_F_Chapter_6_Exercises_files/figure-html/unnamed-chunk-52.png) 
-
 Determine which brand has the best gas mileage and whether to go north or south for the apocolypse.
-
-```r
+```{r}
 both.aov <- aov(mpg ~ -1 + brand*temp , data=tires)
 par(mar=c(6,10,2,2))
 plot(glht(both.aov))
-```
 
-![plot of chunk unnamed-chunk-6](C_F_Chapter_6_Exercises_files/figure-html/unnamed-chunk-6.png) 
+```
 
 Brand C and go South
 
