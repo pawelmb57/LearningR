@@ -1,7 +1,9 @@
 # C&F Chapter 2 Exercies
 Pawel Bogdanowicz  
 
-### Basic R Exercises
+# Basic R Exercises
+
+### Manipulating Dataframes
 
 ##### Create the following dataframe
 
