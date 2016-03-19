@@ -1,7 +1,7 @@
 # C&F Chapter 2 Exercies
 Pawel Bogdanowicz  
 
-### Exercise 1
+### Basic R Exercises
 
 ##### Create the following dataframe
 
