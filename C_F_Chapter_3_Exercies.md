@@ -1,30 +1,45 @@
-# C&F Chapter 3 Exercies
-Pawel Bogdanowicz  
-January 15, 2016  
 
-### Exercise 1
+# Exploratory Analysis Exercises   
 
-##### Simulate a 2 dice roll for 100 trials 
-##### Plot a histogram of the results (2:12)
-##### Use relative frequency instead of count
-##### Add color and formatting to the histogram plot
-##### Add an axis to include all values between 2:12
+## Simulating Dice Rolls
 
+  * Simulate a 2 die roll for 100 trials
+  * Plot a histogram of the results
+    + Use relative frequency instead of count
+    + Add color and formatting to the histogram plot
+    + Add an axis to include all values between 2:12
+
+
+In order to create a simulation of dice rolls we use sample() to take a random sample of integers between 1 and 6.  If an analysis were to be run at different times or by various individuals it could be extremely tedious if the results were always different.  Although replication is not an issue with this exercise, we use set.seed so that the analysis will always produce the same results.
 
 ```r
 set.seed(98250)
+```
 
-rolls <- data.frame(matrix(NA,ncol=3,nrow=100))
+Create a dataframe of NA's that will house the dice trials.  Each trial will have a value for roll 1, roll 2, and a total of both rolls.  Thus, we need 3 columns and we'll run 100 trials. 
+
+```r
+rolls <- data.frame(matrix(NA,ncol=3,nrow=100))   
 names(rolls) <- c("roll1","roll2","Total")
+```
 
+For rolls 1 and 2, use sample() to pick a number between 1 and 6 for 100 trials.  Every time we roll the die all 6 sides are available which means that we need to set replace to true.  Otherwise, if we roll a three on the first trial it would not be included in the sample set for the following rolls.
 
+```r
 rolls$roll1 <- sample(x=c(1:6) , size=100 , replace=TRUE)
 rolls$roll2 <- sample(x=c(1:6) , size=100 , replace=TRUE)
 rolls$Total <- rolls$roll1+rolls$roll2
 
 rolls$Total <- as.numeric(rolls$Total)
+```
 
+
+To visualize the data we create a histogram.  The bins are expliclity states using breaks=.
+
+```r
 hist(rolls$Total,
+#      breaks=10,
+     breaks=c(seq(2,12,1)),
      main="Simulation of Two Dice Rolls",
      xlab="Sum of two rolls",
      ylab="Relative Frequency",
@@ -35,15 +50,17 @@ hist(rolls$Total,
 axis(side=1, at=seq(2,12,by=1))
 ```
 
-![](C_F_Chapter_3_Exercies_files/figure-html/unnamed-chunk-1-1.png)<!-- -->
+![plot of chunk unnamed-chunk-4](C_F_Chapter_3_Exercies_files/figure-html/unnamed-chunk-4.png) 
 
 
 
 
-### Exercise 2
+## Analyzing Philly Dropout Data available from 
 
-##### Load the file Philly_Dropout_Data.csv
-##### Remove the following columns: (2,3,4,6)
+Data obtained from https://www.opendataphilly.org/dataset/schools
+
+* Load the file Philly_Dropout_Data.csv
+* Remove the following columns: (2,3,4,6)
 * Name the columns:
     + County FACTOR
     + School CHARACTER
@@ -55,9 +72,7 @@ axis(side=1, at=seq(2,12,by=1))
 
 
 ```r
-setwd("C:/Users/Pawel PC/Google Drive/School (1)/Independent Study/C&F/C&F Exercies")
-
-data <- read.csv("Philly_Dropout_Data.csv")
+data <- read.csv("http://goo.gl/FieXmC")
 data <- data[,c(-2,-3,-4,-6)]
 names(data) <- c("county","school","enrollments","maleDropouts","femaleDropouts","dropouts","dropoutRate")
 
@@ -78,7 +93,7 @@ str(data)
 ##  $ dropoutRate   : num  0.78 0 1.45 0 0 NA 0.76 0 0 1.25 ...
 ```
 
-##### Remove missing values from the dataset
+  * Remove missing values from the dataset
 
 
 ```r
@@ -88,26 +103,26 @@ summary(data)
 ```
 
 ```
-##           county       school           enrollments      maleDropouts     
-##  Philadelphia:242   Length:1596        Min.   :   1.0   Min.   :   0.000  
-##  Allegheny   :147   Class :character   1st Qu.: 142.0   1st Qu.:   0.000  
-##  Montgomery  : 68   Mode  :character   Median : 395.5   Median :   0.000  
-##  York        : 57                      Mean   : 513.7   Mean   :   4.999  
-##  Bucks       : 55                      3rd Qu.: 680.0   3rd Qu.:   3.000  
-##  Chester     : 49                      Max.   :7291.0   Max.   :1244.000  
-##  (Other)     :978                                                         
-##  femaleDropouts        dropouts         dropoutRate     
-##  Min.   :   0.000   Min.   :   0.000   Min.   :  0.000  
-##  1st Qu.:   0.000   1st Qu.:   0.000   1st Qu.:  0.000  
-##  Median :   0.000   Median :   0.000   Median :  0.000  
-##  Mean   :   3.649   Mean   :   8.648   Mean   :  2.388  
-##  3rd Qu.:   2.000   3rd Qu.:   6.000   3rd Qu.:  1.220  
-##  Max.   :1023.000   Max.   :2267.000   Max.   :400.000  
+##           county       school           enrollments    maleDropouts 
+##  Philadelphia:242   Length:1596        Min.   :   1   Min.   :   0  
+##  Allegheny   :147   Class :character   1st Qu.: 142   1st Qu.:   0  
+##  Montgomery  : 68   Mode  :character   Median : 396   Median :   0  
+##  York        : 57                      Mean   : 514   Mean   :   5  
+##  Bucks       : 55                      3rd Qu.: 680   3rd Qu.:   3  
+##  Chester     : 49                      Max.   :7291   Max.   :1244  
+##  (Other)     :978                                                   
+##  femaleDropouts      dropouts       dropoutRate   
+##  Min.   :   0.0   Min.   :   0.0   Min.   :  0.0  
+##  1st Qu.:   0.0   1st Qu.:   0.0   1st Qu.:  0.0  
+##  Median :   0.0   Median :   0.0   Median :  0.0  
+##  Mean   :   3.6   Mean   :   8.6   Mean   :  2.4  
+##  3rd Qu.:   2.0   3rd Qu.:   6.0   3rd Qu.:  1.2  
+##  Max.   :1023.0   Max.   :2267.0   Max.   :400.0  
 ## 
 ```
 
-##### Show descriptive statistitcs for the dataset.
-##### Create a table that aggregates enrollments, dropouts,maleDropouts,femaleDropouts by county
+* Show descriptive statistitcs for the dataset.
+* Create a table that aggregates enrollments, dropouts,maleDropouts,femaleDropouts by county
 
 
 ```r
@@ -150,7 +165,7 @@ head(aggData);tail(aggData)
 ## 67         York       31661      314          185            129
 ```
 
-##### Compute the average, min, max dropout rate per county omitting schools with 0 dropout rates
+* Compute the average, min, max dropout rate per county omitting schools with 0 dropout rates
 
 ```r
 newData <- data[data$dropouts>0,]
@@ -166,76 +181,76 @@ countyMax <- aggregate(dropouts~county,data=newData,max)
 
 ```
 ##            county dropouts countyMed$dropouts countyMax$dropouts
-## 1           Adams        0          4.0666667                 18
-## 2       Allegheny        0          3.8571429                 41
-## 3       Armstrong        0          6.5000000                 21
-## 4          Beaver        0          2.5454545                 11
-## 5         Bedford        0          2.5000000                 11
-## 6           Berks        0          7.4680851                 99
-## 7           Blair        0          5.0588235                 47
-## 8        Bradford        0          8.3333333                 25
-## 9           Bucks        0          4.0181818                 40
-## 10         Butler        0          4.7058824                 27
-## 11        Cambria        0          2.1304348                 16
-## 12        Cameron        7          7.0000000                  7
-## 13         Carbon        0          2.0000000                 12
-## 14         Centre        0          4.1818182                 17
-## 15        Chester        0          5.1276596                 52
-## 16        Clarion        0          2.1111111                  6
-## 17     Clearfield        0          6.2857143                 32
-## 18        Clinton        0          4.8000000                 21
-## 19       Columbia        0          5.2000000                 49
-## 20       Crawford        0          5.4000000                 24
-## 21     Cumberland        0          5.7142857                 31
-## 22        Dauphin        0          6.4864865                 63
-## 23       Delaware        0          5.4090909                 40
-## 24            Elk        0          3.8333333                 11
-## 25           Erie        0          7.4047619                 66
-## 26        Fayette        0          8.7368421                 51
-## 27         Forest        2          2.0000000                  2
-## 28       Franklin        0          5.4615385                 29
-## 29         Fulton        0          3.2500000                  7
-## 30         Greene        0          2.2000000                  6
-## 31     Huntingdon        0          4.1111111                 17
-## 32        Indiana        0          2.8571429                 13
-## 33      Jefferson        0          6.3333333                 19
-## 34        Juniata        0          0.3333333                  1
-## 35     Lackawanna        0          4.9200000                 61
-## 36      Lancaster        0          6.9333333                 57
-## 37       Lawrence        0          2.3125000                  9
-## 38        Lebanon        0          9.0714286                 52
-## 39         Lehigh        0          8.1562500                 76
-## 40        Luzerne        0          7.8787879                 98
-## 41       Lycoming        0          7.5333333                 59
-## 42         McKean        0          4.3750000                 16
-## 43         Mercer        0          2.7500000                 21
-## 44        Mifflin        0         10.3333333                 26
-## 45         Monroe        0         10.8750000                 44
-## 46     Montgomery        0          5.0000000                 38
-## 47        Montour        0          4.5000000                  9
-## 48    Northampton        0          9.0000000                 63
-## 49 Northumberland        0          4.2352941                 33
-## 50          Perry        0          3.3000000                 18
-## 51   Philadelphia        0          4.8318966                 84
-## 52           Pike        0          5.6666667                 19
-## 53         Potter        0          1.3750000                  6
-## 54     Schuylkill        0          5.1363636                 31
-## 55         Snyder        0          7.8000000                 22
-## 56       Somerset        0          1.4090909                 13
-## 57       Sullivan        2          2.0000000                  2
-## 58    Susquehanna        0          2.5454545                  9
-## 59          Tioga        0          6.1428571                 11
-## 60          Union        0          3.0000000                  7
-## 61        Venango        0          4.9000000                 19
-## 62         Warren        0          6.5714286                 25
-## 63     Washington        0          3.8709677                 32
-## 64          Wayne        0          3.2857143                 11
-## 65   Westmoreland        0          3.8541667                 31
-## 66        Wyoming        0          8.0000000                 20
-## 67           York        0          5.5087719                 55
+## 1           Adams        0             4.0667                 18
+## 2       Allegheny        0             3.8571                 41
+## 3       Armstrong        0             6.5000                 21
+## 4          Beaver        0             2.5455                 11
+## 5         Bedford        0             2.5000                 11
+## 6           Berks        0             7.4681                 99
+## 7           Blair        0             5.0588                 47
+## 8        Bradford        0             8.3333                 25
+## 9           Bucks        0             4.0182                 40
+## 10         Butler        0             4.7059                 27
+## 11        Cambria        0             2.1304                 16
+## 12        Cameron        7             7.0000                  7
+## 13         Carbon        0             2.0000                 12
+## 14         Centre        0             4.1818                 17
+## 15        Chester        0             5.1277                 52
+## 16        Clarion        0             2.1111                  6
+## 17     Clearfield        0             6.2857                 32
+## 18        Clinton        0             4.8000                 21
+## 19       Columbia        0             5.2000                 49
+## 20       Crawford        0             5.4000                 24
+## 21     Cumberland        0             5.7143                 31
+## 22        Dauphin        0             6.4865                 63
+## 23       Delaware        0             5.4091                 40
+## 24            Elk        0             3.8333                 11
+## 25           Erie        0             7.4048                 66
+## 26        Fayette        0             8.7368                 51
+## 27         Forest        2             2.0000                  2
+## 28       Franklin        0             5.4615                 29
+## 29         Fulton        0             3.2500                  7
+## 30         Greene        0             2.2000                  6
+## 31     Huntingdon        0             4.1111                 17
+## 32        Indiana        0             2.8571                 13
+## 33      Jefferson        0             6.3333                 19
+## 34        Juniata        0             0.3333                  1
+## 35     Lackawanna        0             4.9200                 61
+## 36      Lancaster        0             6.9333                 57
+## 37       Lawrence        0             2.3125                  9
+## 38        Lebanon        0             9.0714                 52
+## 39         Lehigh        0             8.1562                 76
+## 40        Luzerne        0             7.8788                 98
+## 41       Lycoming        0             7.5333                 59
+## 42         McKean        0             4.3750                 16
+## 43         Mercer        0             2.7500                 21
+## 44        Mifflin        0            10.3333                 26
+## 45         Monroe        0            10.8750                 44
+## 46     Montgomery        0             5.0000                 38
+## 47        Montour        0             4.5000                  9
+## 48    Northampton        0             9.0000                 63
+## 49 Northumberland        0             4.2353                 33
+## 50          Perry        0             3.3000                 18
+## 51   Philadelphia        0             4.8319                 84
+## 52           Pike        0             5.6667                 19
+## 53         Potter        0             1.3750                  6
+## 54     Schuylkill        0             5.1364                 31
+## 55         Snyder        0             7.8000                 22
+## 56       Somerset        0             1.4091                 13
+## 57       Sullivan        2             2.0000                  2
+## 58    Susquehanna        0             2.5455                  9
+## 59          Tioga        0             6.1429                 11
+## 60          Union        0             3.0000                  7
+## 61        Venango        0             4.9000                 19
+## 62         Warren        0             6.5714                 25
+## 63     Washington        0             3.8710                 32
+## 64          Wayne        0             3.2857                 11
+## 65   Westmoreland        0             3.8542                 31
+## 66        Wyoming        0             8.0000                 20
+## 67           York        0             5.5088                 55
 ```
 
-##### Create a boxplot comparing male dropouts and female dropouts using the new dataset
+* Create a boxplot comparing male dropouts and female dropouts using the new dataset
 
 ```r
 newData <- data[data$dropouts>5&data$dropouts<100,]
@@ -246,6 +261,6 @@ boxplot(cbind(newData$maleDropouts,newData$femaleDropouts) , xaxt="n",
 axis(side=1, at=c(1,2) , labels=c("Male","Female"))
 ```
 
-![](C_F_Chapter_3_Exercies_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+![plot of chunk unnamed-chunk-8](C_F_Chapter_3_Exercies_files/figure-html/unnamed-chunk-8.png) 
 
 
