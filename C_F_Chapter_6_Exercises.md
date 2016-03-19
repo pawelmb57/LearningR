@@ -119,10 +119,10 @@ anova(
 ## Model 1: mpg ~ temp
 ## Model 2: mpg ~ brand + temp
 ## Model 3: mpg ~ brand + temp + brand * temp
-##   Res.Df   RSS Df Sum of Sq     F  Pr(>F)    
-## 1    598 20785                               
-## 2    596 19598  2      1186  30.6 2.2e-13 ***
-## 3    594 11513  2      8085 208.6 < 2e-16 ***
+##   Res.Df   RSS Df Sum of Sq     F Pr(>F)    
+## 1    598 21321                              
+## 2    596 20415  2       906  26.4  1e-11 ***
+## 3    594 10186  2     10229 298.2 <2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```

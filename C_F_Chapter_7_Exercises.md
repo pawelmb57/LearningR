@@ -1,21 +1,11 @@
-# C&F Chapter 7 Exercises
-Pawel Bogdanowicz  
-Tuesday, February 16, 2016  
 
 height weight bmi smoking active/notactive gender 
 
-Create the data for the exercises
+  * Create the data for the exercises
 
 
 ```r
 library(data.table)
-```
-
-```
-## Warning: package 'data.table' was built under R version 3.1.3
-```
-
-```r
 set.seed(2)
 
 N <- 100 # 100 Patients
@@ -66,21 +56,7 @@ Use gpairs
 
 ```r
 library(gpairs)
-```
-
-```
-## Warning: package 'gpairs' was built under R version 3.1.3
-```
-
-```r
 library(corrplot)
-```
-
-```
-## Warning: package 'corrplot' was built under R version 3.1.3
-```
-
-```r
 data <- data.frame(data)
 
 gpairs(data)
@@ -88,13 +64,10 @@ gpairs(data)
 
 ```
 ## Loading required package: grid
-```
-
-```
 ## Loading required package: lattice
 ```
 
-![](C_F_Chapter_7_Exercises_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
+![plot of chunk unnamed-chunk-2](C_F_Chapter_7_Exercises_files/figure-html/unnamed-chunk-21.png) 
 
 ```r
 newdata <- data
@@ -103,7 +76,7 @@ newdata[,c(2:5,7:8)] <- sapply(data[,c(2:5,7:8)],as.numeric)
 corrplot.mixed(cor(newdata[,c(2,3,4,5,7,8)]),upper="ellipse")
 ```
 
-![](C_F_Chapter_7_Exercises_files/figure-html/unnamed-chunk-2-2.png)<!-- -->
+![plot of chunk unnamed-chunk-2](C_F_Chapter_7_Exercises_files/figure-html/unnamed-chunk-22.png) 
 
 ```r
 # Make all of the variables numeric and plot the new corrplot
@@ -111,11 +84,11 @@ newdata <- sapply(data,as.numeric)
 corrplot.mixed(cor(newdata))
 ```
 
-![](C_F_Chapter_7_Exercises_files/figure-html/unnamed-chunk-2-3.png)<!-- -->
+![plot of chunk unnamed-chunk-2](C_F_Chapter_7_Exercises_files/figure-html/unnamed-chunk-23.png) 
 
 
 
-#### Plot risk by bmi adding the line of best fit using abline
+  * Plot risk by bmi adding the line of best fit using abline
 
 
 
@@ -127,10 +100,10 @@ plot(risk ~ bmi , data=data
 abline(m1,col='blue')
 ```
 
-![](C_F_Chapter_7_Exercises_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+![plot of chunk unnamed-chunk-3](C_F_Chapter_7_Exercises_files/figure-html/unnamed-chunk-3.png) 
 
 
-#### Using the coefficient from the linear model, calculate the residuals and return a summary.  Confirm the calculated residuals using summary(model)
+  * Using the coefficient from the linear model, calculate the residuals and return a summary.  Confirm the calculated residuals using summary(model)
 
 
 
@@ -142,7 +115,7 @@ summary(residuals)
 
 ```
 ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-## -4.9900 -2.6020  0.1854  0.0000  2.3150  5.9960
+##  -4.990  -2.600   0.185   0.000   2.320   6.000
 ```
 
 ```r
@@ -155,24 +128,24 @@ summary(m1)
 ## lm(formula = risk ~ bmi, data = data)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -4.9905 -2.6019  0.1854  2.3152  5.9964 
+##    Min     1Q Median     3Q    Max 
+## -4.990 -2.602  0.185  2.315  5.996 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(>|t|)   
-## (Intercept)   2.1382     1.0734   1.992  0.04915 * 
-## bmi           0.1181     0.0359   3.291  0.00139 **
+## (Intercept)   2.1382     1.0734    1.99   0.0491 * 
+## bmi           0.1181     0.0359    3.29   0.0014 **
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 2.923 on 98 degrees of freedom
-## Multiple R-squared:  0.0995,	Adjusted R-squared:  0.09032 
-## F-statistic: 10.83 on 1 and 98 DF,  p-value: 0.00139
+## Residual standard error: 2.92 on 98 degrees of freedom
+## Multiple R-squared:  0.0995,	Adjusted R-squared:  0.0903 
+## F-statistic: 10.8 on 1 and 98 DF,  p-value: 0.00139
 ```
 
 
 
-* Summarize two linear models (bmi+smoker+heigher and bmi+smoker+bmiXsmoker
+  * Summarize two linear models (bmi+smoker+heigher and bmi+smoker+bmiXsmoker
 
 ```r
 m2 <- lm(risk ~ bmi + smoker + height, data=data)
@@ -185,21 +158,21 @@ summary(m2)
 ## lm(formula = risk ~ bmi + smoker + height, data = data)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -4.7903 -2.5523  0.2447  2.1797  6.0752 
+##    Min     1Q Median     3Q    Max 
+## -4.790 -2.552  0.245  2.180  6.075 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(>|t|)  
-## (Intercept)  7.16097    6.14656   1.165   0.2469  
-## bmi          0.06574    0.06808   0.966   0.3366  
-## smokeryes    2.24059    0.91672   2.444   0.0163 *
-## height      -0.05727    0.06643  -0.862   0.3908  
+## (Intercept)   7.1610     6.1466    1.17    0.247  
+## bmi           0.0657     0.0681    0.97    0.337  
+## smokeryes     2.2406     0.9167    2.44    0.016 *
+## height       -0.0573     0.0664   -0.86    0.391  
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 2.846 on 96 degrees of freedom
-## Multiple R-squared:  0.1635,	Adjusted R-squared:  0.1373 
-## F-statistic: 6.253 on 3 and 96 DF,  p-value: 0.0006358
+## Residual standard error: 2.85 on 96 degrees of freedom
+## Multiple R-squared:  0.163,	Adjusted R-squared:  0.137 
+## F-statistic: 6.25 on 3 and 96 DF,  p-value: 0.000636
 ```
 
 ```r
@@ -213,21 +186,21 @@ summary(m3)
 ## lm(formula = risk ~ bmi + smoker + bmi * smoker, data = data)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -4.7572 -2.4288  0.2842  2.0097  5.9678 
+##    Min     1Q Median     3Q    Max 
+## -4.757 -2.429  0.284  2.010  5.968 
 ## 
 ## Coefficients:
 ##               Estimate Std. Error t value Pr(>|t|)   
-## (Intercept)    1.70763    1.09766   1.556  0.12307   
-## bmi            0.12418    0.03676   3.378  0.00106 **
-## smokeryes      4.87711    3.63824   1.341  0.18324   
-## bmi:smokeryes -0.08686    0.12045  -0.721  0.47260   
+## (Intercept)     1.7076     1.0977    1.56   0.1231   
+## bmi             0.1242     0.0368    3.38   0.0011 **
+## smokeryes       4.8771     3.6382    1.34   0.1832   
+## bmi:smokeryes  -0.0869     0.1205   -0.72   0.4726   
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 2.849 on 96 degrees of freedom
-## Multiple R-squared:  0.1615,	Adjusted R-squared:  0.1353 
-## F-statistic: 6.165 on 3 and 96 DF,  p-value: 0.0007066
+## Residual standard error: 2.85 on 96 degrees of freedom
+## Multiple R-squared:  0.162,	Adjusted R-squared:  0.135 
+## F-statistic: 6.17 on 3 and 96 DF,  p-value: 0.000707
 ```
 
 
@@ -243,13 +216,13 @@ m4 <- step(lm(risk ~ bmi + smoker , data=data))
 ```
 
 ```
-## Start:  AIC=211.88
+## Start:  AIC=211.9
 ## risk ~ bmi + smoker
 ## 
-##          Df Sum of Sq    RSS    AIC
-## <none>                783.66 211.88
-## - smoker  1    53.446 837.10 216.48
-## - bmi     1    89.286 872.94 220.67
+##          Df Sum of Sq RSS AIC
+## <none>                784 212
+## - smoker  1      53.4 837 216
+## - bmi     1      89.3 873 221
 ```
 
 ```r
@@ -262,20 +235,20 @@ summary(m4)
 ## lm(formula = risk ~ bmi + smoker, data = data)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -4.7256 -2.5128  0.2326  2.1586  5.8870 
+##    Min     1Q Median     3Q    Max 
+## -4.726 -2.513  0.233  2.159  5.887 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(>|t|)   
-## (Intercept)  1.93987    1.04675   1.853  0.06689 . 
-## bmi          0.11609    0.03492   3.324  0.00125 **
-## smokeryes    2.33711    0.90865   2.572  0.01163 * 
+## (Intercept)   1.9399     1.0467    1.85   0.0669 . 
+## bmi           0.1161     0.0349    3.32   0.0013 **
+## smokeryes     2.3371     0.9087    2.57   0.0116 * 
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 2.842 on 97 degrees of freedom
-## Multiple R-squared:  0.157,	Adjusted R-squared:  0.1396 
-## F-statistic: 9.032 on 2 and 97 DF,  p-value: 0.0002527
+## Residual standard error: 2.84 on 97 degrees of freedom
+## Multiple R-squared:  0.157,	Adjusted R-squared:  0.14 
+## F-statistic: 9.03 on 2 and 97 DF,  p-value: 0.000253
 ```
 
 ```r
@@ -283,20 +256,20 @@ m5 <- step(lm(risk ~ bmi + smoker + bmi*smoker , data=data  ))
 ```
 
 ```
-## Start:  AIC=213.34
+## Start:  AIC=213.3
 ## risk ~ bmi + smoker + bmi * smoker
 ## 
-##              Df Sum of Sq    RSS    AIC
-## - bmi:smoker  1    4.2219 783.66 211.88
-## <none>                    779.44 213.34
+##              Df Sum of Sq RSS AIC
+## - bmi:smoker  1      4.22 784 212
+## <none>                    779 213
 ## 
-## Step:  AIC=211.88
+## Step:  AIC=211.9
 ## risk ~ bmi + smoker
 ## 
-##          Df Sum of Sq    RSS    AIC
-## <none>                783.66 211.88
-## - smoker  1    53.446 837.10 216.48
-## - bmi     1    89.286 872.94 220.67
+##          Df Sum of Sq RSS AIC
+## <none>                784 212
+## - smoker  1      53.4 837 216
+## - bmi     1      89.3 873 221
 ```
 
 ```r
@@ -309,20 +282,20 @@ summary(m5)
 ## lm(formula = risk ~ bmi + smoker, data = data)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -4.7256 -2.5128  0.2326  2.1586  5.8870 
+##    Min     1Q Median     3Q    Max 
+## -4.726 -2.513  0.233  2.159  5.887 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(>|t|)   
-## (Intercept)  1.93987    1.04675   1.853  0.06689 . 
-## bmi          0.11609    0.03492   3.324  0.00125 **
-## smokeryes    2.33711    0.90865   2.572  0.01163 * 
+## (Intercept)   1.9399     1.0467    1.85   0.0669 . 
+## bmi           0.1161     0.0349    3.32   0.0013 **
+## smokeryes     2.3371     0.9087    2.57   0.0116 * 
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 2.842 on 97 degrees of freedom
-## Multiple R-squared:  0.157,	Adjusted R-squared:  0.1396 
-## F-statistic: 9.032 on 2 and 97 DF,  p-value: 0.0002527
+## Residual standard error: 2.84 on 97 degrees of freedom
+## Multiple R-squared:  0.157,	Adjusted R-squared:  0.14 
+## F-statistic: 9.03 on 2 and 97 DF,  p-value: 0.000253
 ```
 
 ```r
@@ -336,26 +309,26 @@ summary(m6)
 ## lm(formula = risk ~ ., data = data)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -4.5698 -1.9356 -0.2837  1.8424  5.3838 
+##    Min     1Q Median     3Q    Max 
+## -4.570 -1.936 -0.284  1.842  5.384 
 ## 
 ## Coefficients:
-##                  Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)    -1.466e+01  8.912e+00  -1.645 0.103335    
-## gendermale     -2.845e-01  9.416e-01  -0.302 0.763232    
-## activityLevel2  9.932e-01  6.832e-01   1.454 0.149484    
-## activityLevel3  2.365e+00  6.355e-01   3.722 0.000342 ***
-## height          2.914e-01  1.279e-01   2.278 0.025090 *  
-## weight         -7.294e-02  3.161e-02  -2.308 0.023286 *  
-## bmi             4.277e-01  1.305e-01   3.277 0.001484 ** 
-## smokeryes       1.945e+00  8.759e-01   2.220 0.028884 *  
-## age            -3.369e-04  1.770e-02  -0.019 0.984853    
+##                 Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)    -1.47e+01   8.91e+00   -1.65  0.10333    
+## gendermale     -2.84e-01   9.42e-01   -0.30  0.76323    
+## activityLevel2  9.93e-01   6.83e-01    1.45  0.14948    
+## activityLevel3  2.36e+00   6.35e-01    3.72  0.00034 ***
+## height          2.91e-01   1.28e-01    2.28  0.02509 *  
+## weight         -7.29e-02   3.16e-02   -2.31  0.02329 *  
+## bmi             4.28e-01   1.31e-01    3.28  0.00148 ** 
+## smokeryes       1.94e+00   8.76e-01    2.22  0.02888 *  
+## age            -3.37e-04   1.77e-02   -0.02  0.98485    
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 2.647 on 91 degrees of freedom
-## Multiple R-squared:  0.3142,	Adjusted R-squared:  0.2539 
-## F-statistic: 5.211 on 8 and 91 DF,  p-value: 2.255e-05
+## Residual standard error: 2.65 on 91 degrees of freedom
+## Multiple R-squared:  0.314,	Adjusted R-squared:  0.254 
+## F-statistic: 5.21 on 8 and 91 DF,  p-value: 2.26e-05
 ```
 
 ```r
@@ -363,7 +336,7 @@ summary(m2)$r.squared
 ```
 
 ```
-## [1] 0.1634737
+## [1] 0.1635
 ```
 
 ```r
@@ -371,7 +344,7 @@ summary(m3)$r.squared
 ```
 
 ```
-## [1] 0.1615397
+## [1] 0.1615
 ```
 
 ```r
@@ -379,7 +352,7 @@ summary(m4)$r.squared
 ```
 
 ```
-## [1] 0.1569981
+## [1] 0.157
 ```
 
 ```r
@@ -387,7 +360,7 @@ summary(m5)$r.squared
 ```
 
 ```
-## [1] 0.1569981
+## [1] 0.157
 ```
 
 ```r
@@ -395,7 +368,7 @@ summary(m6)$r.squared
 ```
 
 ```
-## [1] 0.3141803
+## [1] 0.3142
 ```
 
 ```r
@@ -403,7 +376,7 @@ plot(data$risk , fitted(m1) , col='red')
 points(data$risk , fitted(m2) , col='blue')
 ```
 
-![](C_F_Chapter_7_Exercises_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+![plot of chunk unnamed-chunk-6](C_F_Chapter_7_Exercises_files/figure-html/unnamed-chunk-6.png) 
 
 ```r
 # library(coefplot)

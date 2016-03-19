@@ -1,9 +1,6 @@
-# C&F Chapter 5 Exercises
-Pawel Bogdanowicz  
-January 29, 2016  
 
-### 1 
-#### Simulate store sales data
+# Simulating and comparing data
+
 
 * Variables
     + Marketing Channel:  Best Buy & Amazon
@@ -76,13 +73,13 @@ summary(data)
 ```
 
 ```
-##  marketing.channel returns      sales           gender        age       
-##  Amazon  :49       Yes:78   Min.   : 426.9   Male  :55   Min.   :25.28  
-##  Best Buy:51       No :22   1st Qu.: 801.8   Female:45   1st Qu.:30.44  
-##                             Median :1182.6               Median :39.25  
-##                             Mean   :1177.4               Mean   :39.10  
-##                             3rd Qu.:1396.6               3rd Qu.:44.39  
-##                             Max.   :2741.3               Max.   :61.10  
+##  marketing.channel returns      sales         gender        age      
+##  Amazon  :49       Yes:78   Min.   : 427   Male  :55   Min.   :25.3  
+##  Best Buy:51       No :22   1st Qu.: 802   Female:45   1st Qu.:30.4  
+##                             Median :1183               Median :39.2  
+##                             Mean   :1177               Mean   :39.1  
+##                             3rd Qu.:1397               3rd Qu.:44.4  
+##                             Max.   :2741               Max.   :61.1  
 ##           segment  
 ##  High Income  :20  
 ##  Low Income   :30  
@@ -105,13 +102,13 @@ aggregate( age ~ segment + marketing.channel , data=data , mean)
 ```
 
 ```
-##         segment marketing.channel      age
-## 1   High Income            Amazon 51.40684
-## 2    Low Income            Amazon 28.31254
-## 3 Middle Income            Amazon 40.23293
-## 4   High Income          Best Buy 53.04968
-## 5    Low Income          Best Buy 28.96390
-## 6 Middle Income          Best Buy 39.66903
+##         segment marketing.channel   age
+## 1   High Income            Amazon 51.41
+## 2    Low Income            Amazon 28.31
+## 3 Middle Income            Amazon 40.23
+## 4   High Income          Best Buy 53.05
+## 5    Low Income          Best Buy 28.96
+## 6 Middle Income          Best Buy 39.67
 ```
 
 ```r
@@ -133,13 +130,13 @@ aggregate( sales ~ segment + marketing.channel, data=data , sum)
 ```
 
 ```
-##         segment marketing.channel     sales
-## 1   High Income            Amazon  4694.552
-## 2    Low Income            Amazon 13498.673
-## 3 Middle Income            Amazon 31906.303
-## 4   High Income          Best Buy 29827.567
-## 5    Low Income          Best Buy  7300.849
-## 6 Middle Income          Best Buy 30511.719
+##         segment marketing.channel sales
+## 1   High Income            Amazon  4695
+## 2    Low Income            Amazon 13499
+## 3 Middle Income            Amazon 31906
+## 4   High Income          Best Buy 29828
+## 5    Low Income          Best Buy  7301
+## 6 Middle Income          Best Buy 30512
 ```
 
 ### 3
@@ -158,7 +155,7 @@ histogram(
   )
 ```
 
-![](C_F_Chapter_5_Exercises_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+![plot of chunk unnamed-chunk-3](C_F_Chapter_5_Exercises_files/figure-html/unnamed-chunk-3.png) 
 
 ### 4
 #### Show a boxplot of sales by segment
@@ -170,7 +167,7 @@ ax.seq <- seq(from=0 , to=5000 , by=250)
 axis(side=2 , at=ax.seq , labels=paste(ax.seq/1000 , "k" , sep="") , las=1)
 ```
 
-![](C_F_Chapter_5_Exercises_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
+![plot of chunk unnamed-chunk-4](C_F_Chapter_5_Exercises_files/figure-html/unnamed-chunk-4.png) 
 
 
 
